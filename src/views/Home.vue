@@ -1,9 +1,19 @@
 <template>
   <div class="home">
-    <img src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img src="../assets/oa-logo.png">
+    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
+
+
+<style lang="stylus" scoped>
+.home
+  img
+    max-width 300px
+    padding 20px
+</style>
+
+
 
 <script>
 // @ is an alias to /src
