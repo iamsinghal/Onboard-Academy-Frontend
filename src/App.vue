@@ -5,18 +5,34 @@
       <v-content>
         <router-view />
       </v-content>
+      <BottomNavBar v-if="isMobileScreen"/>
     </v-app>
   </div>
 </template>
 
 <style lang="stylus">
+@font-face {
+font-family: "Apercu";
+src: url("./assets/fonts/apercu_regular.woff2");
+}
+
+@font-face {
+font-family: "Apercu-bold";
+src :url("./assets/fonts/apercu_bold.woff2");
+}
+
 #app {
-  font-family: 'Inconsolata', monospace;
+  font-family: 'Apercu', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
+
+.application {
+  letter-spacing: 2px;
+}
+
 
 #nav {
   padding: 30px;
@@ -34,10 +50,17 @@
 
 <script>
 import TheAppToolbar from "@/components/TheAppToolbar";
+import BottomNavBar from "@/components/BottomNavBar";
 export default {
   name: "App",
   components: {
-    TheAppToolbar
+    TheAppToolbar,
+    BottomNavBar
+  },
+  computed: {
+    isMobileScreen() {
+      return this.$vuetify.breakpoint.name === "xs";
+    }
   }
 };
 </script>

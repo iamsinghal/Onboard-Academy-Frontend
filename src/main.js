@@ -5,11 +5,12 @@ import router from "./router";
 
 //css
 import "vuetify/dist/vuetify.min.css";
+import "@/styles/_override.scss";
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify, {
   theme: {
-    primary: "#00a7ab",
+    primary: "#F38B4C",
     secondary: "#424242",
     accent: "#82B1FF",
     error: "#FF5252",

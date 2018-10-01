@@ -3,6 +3,7 @@
         <!-- Navigation Drawer -->
     <v-navigation-drawer
         v-model="drawer"
+        right
         temporary
         fixed
         app
@@ -32,38 +33,76 @@
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
+
     <!-- Toolbar  -->
-    <v-toolbar dark color="primary" height="50">
+    <v-toolbar app color="#faf8f2" class="app-toolbar" flat height="80">
+      <router-link to="/">
+        <img
+        class="organiztion-logo"
+        src="../assets/images/oc-logo-transparent.png"
+        alt="Onboard Canada Logo"
+      >
+      </router-link>
+        <v-spacer v-if="isMobileScreen" />
+      <v-toolbar-title>
+          ONBOARD CANADA
+      </v-toolbar-title>
+      <template v-if="!isMobileScreen"> 
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-btn round flat>BLOG</v-btn>
+        <v-btn round flat>FIND BUDDY</v-btn>
+        <v-btn round flat>HELP</v-btn>
+        <hr class="hr--long">
+        <v-btn to="/login" round flat >LOG IN</v-btn>
+        <v-btn outline round color="#f38b4c" to="/signup">SIGN UP FOR FREE</v-btn>
+      </template>
+      <template v-if="isMobileScreen">
+        <v-spacer></v-spacer>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title class="white--text">Onboard Canada</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-text-field
-        flat
-        solo-inverted
-        hide-details
-        prepend-inner-icon="search"
-        label="Search"
-        class="hidden-sm-and-down"
-      ></v-text-field>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>apps</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>refresh</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>more_vert</v-icon>
-      </v-btn>
+      </template>
     </v-toolbar>
-
-
 </div>
-
-  
 </template>
 
-<style lang="stylus" scoped>
+<style lang="scss" scoped>
+@import "../styles/_breakpoints.scss";
+
+.app-toolbar {
+  // background-color: transparent !important; // Override Vuetify
+
+  & /deep/ .v-btn__content {
+    letter-spacing: 2px;
+  }
+}
+
+.hr--long {
+  max-height: 48px;
+  height: 100%;
+}
+
+.organiztion-logo {
+  padding: 4px;
+  max-width: 70px;
+
+  @include xsDown {
+    max-width: 50px;
+  }
+}
+
+.v-toolbar__title {
+  margin: 0 8px !important;
+  font-weight: 100;
+  letter-spacing: 2px;
+
+  @include xxsDown {
+    display: none;
+  }
+}
+
+.v-divider {
+  max-height: 100px;
+}
 </style>
 
 <script>
@@ -75,6 +114,11 @@ export default {
       { title: "Home", icon: "dashboard" },
       { title: "About", icon: "question_answer" }
     ]
-  })
+  }),
+  computed: {
+    isMobileScreen() {
+      return this.$vuetify.breakpoint.name === "xs";
+    }
+  }
 };
 </script>
