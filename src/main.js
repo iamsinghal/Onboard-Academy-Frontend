@@ -2,6 +2,9 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 import App from "./App.vue";
 import router from "./router";
+import Vuex from "vuex";
+import VeeValidate from "vee-validate";
+import createPersistedState from "vuex-persistedstate";
 
 //css
 import "vuetify/dist/vuetify.min.css";
@@ -16,11 +19,32 @@ Vue.use(Vuetify, {
     error: "#FF5252",
     info: "#2196F3",
     success: "#4CAF50",
-    warning: "#FFC107"
+    warning: "#FFC107",
+    purpleTaupe: "#444054",
+    cyanAzure: "#4f8bba",
+    mandrin: "#f38b4c",
+    darkPuce: "#433a3f",
+    cornSilk: "#fcfad9",
+    floralWhite: "#faf8f2"
+  }
+});
+Vue.use(Vuex);
+Vue.use(VeeValidate);
+
+const store = new Vuex.Store({
+  plugins: [createPersistedState()],
+  state: {
+    viewer: null
+  },
+  mutations: {
+    setViewer(state, payload) {
+      state.viewer = payload;
+    }
   }
 });
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount("#app");

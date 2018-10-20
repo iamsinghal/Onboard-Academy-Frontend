@@ -54,8 +54,33 @@
         <v-btn round flat>FIND BUDDY</v-btn>
         <v-btn round flat>HELP</v-btn>
         <hr class="hr--long">
-        <v-btn to="/login" round flat >LOG IN</v-btn>
-        <v-btn outline round color="#f38b4c" to="/signup">SIGN UP FOR FREE</v-btn>
+        <v-btn v-if="!isAuthenticated" to="/login" round flat >LOG IN</v-btn>
+        <v-btn v-if="!isAuthenticated" outline round color="#f38b4c" to="/signup">SIGN UP FOR FREE</v-btn>
+        <span v-if="isAuthenticated" class="avatar__name">{{avatarName}}</span>
+        <v-menu
+          v-if="isAuthenticated"
+          offset-y
+          nudge-bottom="4"
+          class="toolbar__avatar"
+          content-class="profile__menu"
+        >
+          <v-avatar
+            size="50"
+            color="red"
+            slot="activator"
+          >
+            <img src="https://randomuser.me/api/portraits/men/85.jpg">
+          </v-avatar>
+          <v-list dense>
+            <!-- <v-subheader>Onboard Academy</v-subheader> -->
+            <v-list-tile to="/profile">
+              <v-list-tile-title>My Profile</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile @click="logOut">
+              <v-list-tile-title>Logout</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
       </template>
       <template v-if="isMobileScreen">
         <v-spacer></v-spacer>
@@ -69,8 +94,6 @@
 @import "../styles/_breakpoints.scss";
 
 .app-toolbar {
-  // background-color: transparent !important; // Override Vuetify
-
   & /deep/ .v-btn__content {
     letter-spacing: 2px;
   }
@@ -103,9 +126,23 @@
 .v-divider {
   max-height: 100px;
 }
+
+.toolbar__avatar {
+  margin-left: 20px;
+}
+
+.profile__menu {
+  border-radius: 8px;
+  min-width: 150px !important;
+}
+
+.avatar__name {
+  margin-left: 20px;
+}
 </style>
 
 <script>
+// import { isJwtValid } from "../utilities/auth";
 export default {
   name: "TheAppToolbar",
   data: () => ({
@@ -118,6 +155,21 @@ export default {
   computed: {
     isMobileScreen() {
       return this.$vuetify.breakpoint.name === "xs";
+    },
+    isAuthenticated() {
+      return this.$store.state.viewer && localStorage.getItem("token")
+        ? true
+        : false;
+    },
+    avatarName() {
+      return this.$store.state.viewer.name;
+    }
+  },
+  methods: {
+    logOut() {
+      localStorage.removeItem("token");
+      this.$store.commit("setViewer", null);
+      this.$router.push("/");
     }
   }
 };

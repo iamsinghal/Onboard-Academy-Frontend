@@ -4,20 +4,30 @@ import Home from "./views/Home.vue";
 import About from "./views/About.vue";
 import SignUp from "./views/SignUp.vue";
 import Login from "./views/Login.vue";
+import FindCompanion from "./views/FindCompanionPage.vue";
+import UserProfile from "./views/UserProfile.vue";
+import { isJwtValid } from "./utilities/auth";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
+  mode: "history",
   routes: [
     {
       path: "/",
       name: "home",
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: false
+      }
     },
     {
       path: "/about",
       name: "about",
-      component: About
+      component: About,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/login",
@@ -27,7 +37,37 @@ export default new Router({
     {
       path: "/signup",
       name: "sign-up",
-      component: SignUp
+      component: SignUp,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: "/find-companion",
+      name: "find-companion",
+      component: FindCompanion
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: UserProfile,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  const isAuthenicated = isJwtValid();
+
+  if (to.matched.some(route => route.meta && route.meta.requiresAuth)) {
+    if (isAuthenicated) {
+      return next();
+    }
+    return next("/login");
+  }
+  next();
+});
+
+export default router;

@@ -3,7 +3,7 @@
     <v-container>
     <div class="landing-page--text">Onboarding made easier</div>
     <div class="landing-page__sub-heading">Find your buddy before you arrive</div>
-    <v-btn class="find-buddy__button" large color="primary">Find a buddy NOW</v-btn>
+    <v-btn class="find-buddy__button" to="/find-companion" large color="primary">Find a buddy NOW</v-btn>
     </v-container>
   </div>
 </template>
