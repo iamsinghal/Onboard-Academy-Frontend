@@ -39,9 +39,9 @@
           <div>
             <span class="card__title">Which College you are going to study in Canada?</span>
               <v-select
-                :items="items"
+                :items="institutionList"
                 class="input--wide"
-                v-model="value"
+                v-model="institutionSelected"
                 label="Choose College/University"
                 :menu-props="{offsetY: '', nudgeTop: '-8'}"
               />
@@ -65,9 +65,9 @@
           <div>
             <span class="card__title">Which program you are going for?</span>
               <v-select
-                :items="items"
+                :items="programList"
                 class="input--wide"
-                v-model="value"
+                v-model="programSelected"
                 label="Select your program"
                 :menu-props="{offsetY: '', nudgeTop: '-8'}"
               />
@@ -91,9 +91,9 @@
           <div>
             <span class="card__title">When is your program starting?</span>
               <v-select
-                :items="items"
+                :items="sessionList"
                 class="input--wide"
-                v-model="value"
+                v-model="sessionSelected"
                 label="Select Intake"
                 :menu-props="{offsetY: '', nudgeTop: '-8'}"
               />
@@ -117,9 +117,9 @@
           <div>
             <span class="card__title">Where are you coming from?</span>
               <v-select
-                :items="items"
+                :items="locationList"
                 class="input--wide"
-                v-model="value"
+                v-model="locationSelected"
                 label="Select Origin"
                 :menu-props="{offsetY: '', nudgeTop: '-8'}"
               />
@@ -128,7 +128,7 @@
             <v-icon disabled size="48" @click="e1 = 1"/>
           </span>
           </v-card>
-          <v-btn color="success" to="/view-matches" class="find-matches-btn">Find Matches NOW</v-btn>
+          <v-btn color="success" @click="findMatches()" class="find-matches-btn">Find Matches NOW</v-btn>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -194,19 +194,85 @@
 
 
 <script>
+import axios from "axios";
+import { API_URLS } from "../utilities/constants";
+
 export default {
   data: () => ({
     e1: 0,
-    items: [
-      "Conestoga College, Kitchener, ON",
-      "Lambton College, Toronto, ON",
-      "Humber College, Toronto, ON"
-    ],
-    value: ""
+    institutionList: [],
+    institutionSelected: "",
+    programList: ["Mobile Solutions Development", "Computer Applications Development", "Computer Applications Security"],
+    programSelected:"",
+    sessionList: ["Sep 2017", "May 2018", "Sep 2018", "Jan 2019"],
+    sessionSelected: "",
+    locationList: [],
+    locationSelected: "",
   }),
   computed: {
     stepperHide() {
       return "stepper--hide";
+    }
+  },
+  mounted() {
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("token")
+    };
+
+    axios
+      .get(API_URLS.GET_INSTITUTION)
+      .then(res => {
+        const ins =  res.data.institutions;
+
+        this.institutionList = ins.map(i => {
+          return {text: `${i.name}, ${i.location.city}, ${i.location.province}`, value:i._id}
+        });
+        
+      })
+      .catch(err => {
+        if (err) {
+          console.log(err);
+        }
+      });
+
+      axios
+      .get(API_URLS.GET_LOCATION)
+      .then(res => {
+        const locations = res.data.locations;
+        this.locationList = locations.map(loc => {
+          return {text: `${loc.city}, ${loc.province}, ${loc.country}`, value: loc._id}
+        });
+      })
+      .catch(err => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  },
+  methods: {
+    findMatches(){
+      axios.defaults.headers = {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      };
+
+      const postBody = {
+        session: this.sessionSelected,
+        program: this.programSelected,
+        origin: this.locationSelected,
+        institution: this.institutionSelected
+      };
+
+      axios
+        .post(API_URLS.UPDATE_PROFILE, postBody)
+        .then(res => {
+          console.log(res);
+          this.$router.push("/view-matches")
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

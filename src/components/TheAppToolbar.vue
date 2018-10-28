@@ -51,7 +51,7 @@
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-btn round flat>BLOG</v-btn>
-        <v-btn round flat>FIND BUDDY</v-btn>
+        <v-btn round flat to="/view-matches">MY MATCHES</v-btn>
         <v-btn round flat>HELP</v-btn>
         <hr class="hr--long">
         <v-btn v-if="!isAuthenticated" to="/login" round flat >LOG IN</v-btn>
@@ -66,10 +66,10 @@
         >
           <v-avatar
             size="50"
-            color="red"
+            color="primary"
             slot="activator"
           >
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
+            <span class="white--text headline">{{avatar}}</span>
           </v-avatar>
           <v-list dense>
             <!-- <v-subheader>Onboard Academy</v-subheader> -->
@@ -161,6 +161,9 @@ export default {
     },
     avatarName() {
       return this.$store.state.viewer.name;
+    },
+    avatar(){
+      return this.$store.state.viewer.name.substring(0, 1);
     }
   },
   methods: {

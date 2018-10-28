@@ -29,14 +29,20 @@
       <h2 class="section-title">Education</h2>
       <v-select
         :items="institutionList"
-        v-model="profile.institution.name"
+        v-model="profile.institution.id"
         label="College"
         :menu-props="{offsetY: '', nudgeTop: '-8'}"
       />
       <v-select
-        :items="intakeList"
+        :items="programList"
+        v-model="profile.program"
+        label="Program"
+        :menu-props="{offsetY: '', nudgeTop: '-8'}"
+      />
+      <v-select
+        :items="sessionList"
         v-model="profile.programSession"
-        label="Intake"
+        label="Session"
         :menu-props="{offsetY: '', nudgeTop: '-8'}"
       />
     </v-card>
@@ -69,8 +75,8 @@
         id="facebook"
       />
       <v-select
-        :items="originList"
-        v-model="homeAdress"
+        :items="locationList"
+        v-model="profile.origin.id"
         label="Home Address"
         :menu-props="{offsetY: '', nudgeTop: '-8'}"
       />
@@ -129,34 +135,27 @@ export default {
   name: "EditProfile",
   data: () => ({
     value: "",
-    items: ["Something", "Anything"],
-    institutionList: ["Conestoga College", "Waterloo University"],
-    intakeList: ["Sep 2018", "May 2018", "Sep 2017"],
-    originList: ["New Delhi, New Delhi, India", "Pune, Maharasthra, India"],
-    homeAdress: "",
+    institutionList: [],
+    programList: ["Mobile Solutions Development", "Computer Applications Development", "Computer Applications Security"],
+    sessionList: ["Sep 2017", "May 2018", "Sep 2018", "Jan 2019"],
+    locationList: [],
     profile: {
       user: {
         name: "",
         email: ""
       },
       origin: {
-        city: "",
-        country: "",
-        province: ""
+       id: ""
       },
       contact: {
         mobile: "",
         fbUrl: ""
       },
       institution: {
-        name: "",
-        location: {
-          city: "",
-          country: "",
-          province: ""
-        }
+        id:""
       },
-      programSession: ""
+      programSession: "",
+      program: ""
     }
   }),
   mounted() {
@@ -172,18 +171,50 @@ export default {
         if (!res.data) {
           return;
         }
-        const { mobile, facebookUrl } = res.data;
-        const { city, province, country } = res.data.origin;
+        const { mobile, facebookUrl, program, user, session, institution, origin } = res.data;
+        const { _id} = res.data.origin;
 
-        this.profile.user = res.data.user;
-        this.profile.institution = res.data.institution;
-        this.profile.programSession = res.data.session;
+        this.profile.user = user;
+        this.profile.institution.id = institution._id;
+        this.profile.programSession = session;
         this.profile.contact.mobile = mobile;
         this.profile.contact.fbUrl = facebookUrl;
-        this.homeAdress = `${city}, ${province}, ${country}`;
+        this.profile.origin.id = origin._id;
+        this.profile.program = program;
       })
       .catch(err => {
         if (err.response.data.message) {
+          console.log(err);
+        }
+      });
+
+
+      axios
+      .get(API_URLS.GET_INSTITUTION)
+      .then(res => {
+        const ins =  res.data.institutions;
+
+        this.institutionList = ins.map(i => {
+          return {text: `${i.name}, ${i.location.city}, ${i.location.province}`, value:i._id}
+        });
+        
+      })
+      .catch(err => {
+        if (err) {
+          console.log(err);
+        }
+      });
+
+      axios
+      .get(API_URLS.GET_LOCATION)
+      .then(res => {
+        const locations = res.data.locations;
+        this.locationList = locations.map(loc => {
+          return {text: `${loc.city}, ${loc.province}, ${loc.country}`, value: loc._id}
+        });
+      })
+      .catch(err => {
+        if (err) {
           console.log(err);
         }
       });
@@ -195,11 +226,13 @@ export default {
         Authorization: localStorage.getItem("token")
       };
 
-
       const postBody = {
         mobile: this.profile.contact.mobile,
         facebookUrl: this.profile.contact.fbUrl,
-        session: this.profile.programSession
+        session: this.profile.programSession,
+        program: this.profile.program,
+        origin: this.profile.origin.id,
+        institution: this.profile.institution.id
       };
 
       axios
