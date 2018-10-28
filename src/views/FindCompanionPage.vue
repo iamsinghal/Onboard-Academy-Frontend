@@ -1,5 +1,7 @@
 <template>
-  <FindYourCompanion />
+  <!-- <v-card> -->
+    <FindYourCompanion />
+  <!-- </v-card> -->
 </template>
 
 <script>

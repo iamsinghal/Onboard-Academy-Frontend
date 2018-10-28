@@ -142,7 +142,7 @@
 </style>
 
 <script>
-// import { isJwtValid } from "../utilities/auth";
+import { isJwtValid } from "../utilities/auth";
 export default {
   name: "TheAppToolbar",
   data: () => ({
@@ -157,9 +157,7 @@ export default {
       return this.$vuetify.breakpoint.name === "xs";
     },
     isAuthenticated() {
-      return this.$store.state.viewer && localStorage.getItem("token")
-        ? true
-        : false;
+      return this.$store.state.viewer && isJwtValid() ? true : false;
     },
     avatarName() {
       return this.$store.state.viewer.name;

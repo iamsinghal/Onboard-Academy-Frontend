@@ -5,5 +5,8 @@ const BASE_URL = "http://app.onboard.academy";
 export const API_URLS = {
   LOGIN: `${BASE_URL}/login`,
   REGISTER: `${BASE_URL}/register`,
-  USERS: `${BASE_URL}/users`
+  USERS: `${BASE_URL}/users`,
+  USER_PROFILE: `${BASE_URL}/profile`,
+  UPDATE_PROFILE: `${BASE_URL}/update-profile`,
+  VIEW_MATCHES: `${BASE_URL}/matches`
 };

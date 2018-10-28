@@ -6,6 +6,7 @@ import SignUp from "./views/SignUp.vue";
 import Login from "./views/Login.vue";
 import FindCompanion from "./views/FindCompanionPage.vue";
 import UserProfile from "./views/UserProfile.vue";
+import ViewMatches from "./views/ViewMatches.vue";
 import { isJwtValid } from "./utilities/auth";
 
 Vue.use(Router);
@@ -51,6 +52,14 @@ const router = new Router({
       path: "/profile",
       name: "profile",
       component: UserProfile,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/view-matches",
+      name: "view",
+      component: ViewMatches,
       meta: {
         requiresAuth: true
       }

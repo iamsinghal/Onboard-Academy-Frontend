@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-tabs
-        align-with-title
         dark
         fixed-tabs
         slot="extension"
@@ -16,17 +15,11 @@
         <v-tab>
           Settings
         </v-tab>
-
+        <!-- Profile Tab Content -->
         <v-tab-item>
-        <v-card color="floralWhite" class="tab__cards">
-          <v-card-text>
-           <label> Name:</label> {{profileTabContent.name}}
-          </v-card-text>
-          <v-card-text>
-           <label> Email:</label> {{profileTabContent.email}}
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
+        <EditProfile />
+        </v-tab-item>
+      <!-- Setting Tab Content -->
       <v-tab-item>
         <v-card color="floralWhite" class="tab__cards">
           <v-card-text>
@@ -39,8 +32,12 @@
 </template>
 
 <script>
+import EditProfile from "../components/EditProfile.vue";
 export default {
   name: "UserProfile",
+  components: {
+    EditProfile
+  },
   data: () => ({
     tabs: null,
     profileTabContent: {
@@ -57,4 +54,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/settings.scss";
+
+.v-tabs__div {
+  width: calc(100% / 2);
+  max-width: 100%;
+  font-size: 18px;
+}
 </style>
