@@ -1,23 +1,26 @@
 <template>
   <div class="main-container">
-    <h2>View Matches</h2>
-    <div class="matched-results">
+    <h2>Pending Invitations</h2>
+    <div v-if="pendingInvitations.length" class="matched-results">
       <UserCard
-      v-for="(user, index) in matchResult" :key="index"
+      v-for="(user, index) in pendingInvitations" :key="index"
       :matchedUser="user"
-      connectBtn
       class="user__card"
-      v-on:send-invite="sendInvite($event)"
+      acceptRejectBtn
+      @acceptRejectInvite="acceptRejectInvite($event)"
     />
     </div>
-
-    <h2>Sent Invitation</h2>
+    <span v-else  class="empty-state" >You have no pending connection!</span>
+    
+    <h2> Your Buddies</h2>
     <div class="matched-results">
       <UserCard
-      v-for="(user, index) in invitedBuddies" :key="index"
+      v-for="(user, index) in buddyList" :key="index"
       :matchedUser="user"
       class="user__card"
-      cancelInviteBtn
+      removeBuddyBtn
+      messageBtn
+      @removeBuddy="removeBuddy($event)"
     />
     </div>
   </div>
@@ -34,8 +37,8 @@ export default {
     UserCard
   },
   data: () => ({
-    matchResult: [],
-    invitedBuddies: []
+    pendingInvitations: [],
+    buddyList: []
   }),
   mounted() {
     axios.defaults.headers = {
@@ -44,28 +47,14 @@ export default {
     };
 
     axios
-      .get(API_URLS.VIEW_MATCHES)
+      .get(API_URLS.PENDING_INVITATION)
       .then(res => {
         if (!res.data) {
           return;
         }
-        this.matchResult = res.data;
-      })
-      .catch(err => {
-        if (err.response.data.message) {
-          console.log(err);
-        }
-      });
-
-    axios
-      .get(API_URLS.SENT_INVITATIONS)
-      .then(res => {
-        if (!res.data) {
-          return;
-        }
-        let invitedBuddies = [];
+        let pendingInvitations = [];
         res.data.buddyList.forEach(b => {
-          invitedBuddies.push({
+          pendingInvitations.push({
             name: b.buddyProfile.user.name,
             institution: b.buddyProfile.institution.name,
             origin: `${b.buddyProfile.origin.city},
@@ -74,8 +63,33 @@ export default {
             id: b._id
           });
         });
-        this.invitedBuddies = invitedBuddies;
-        console.log(this.invitedBuddies);
+        this.pendingInvitations = pendingInvitations;
+        console.log(pendingInvitations.length);
+      })
+      .catch(err => {
+        if (err.response) {
+          console.log(err);
+        }
+      });
+
+    axios
+      .get(API_URLS.BUDDY)
+      .then(res => {
+        if (!res.data) {
+          return;
+        }
+        let buddyList = [];
+        res.data.buddyList.forEach(b => {
+          buddyList.push({
+            name: b.buddyProfile.user.name,
+            institution: b.buddyProfile.institution.name,
+            origin: `${b.buddyProfile.origin.city},
+            ${b.buddyProfile.origin.province}, 
+            ${b.buddyProfile.origin.country} `,
+            id: b._id
+          });
+        });
+        this.buddyList = buddyList;
       })
       .catch(err => {
         if (err.response) {
@@ -88,14 +102,15 @@ export default {
     initials(name) {
       return name.substring(0, 1);
     },
-    sendInvite(buddyId) {
+    acceptRejectInvite(statusAndBuddyId) {
+      console.log(statusAndBuddyId);
       axios.defaults.headers = {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token")
       };
 
       axios
-        .post(API_URLS.BUDDY, { addedUser: buddyId })
+        .patch(API_URLS.BUDDY, statusAndBuddyId)
         .then(res => {
           if (!res.data) {
             return;
@@ -103,7 +118,27 @@ export default {
           console.log(res.data);
         })
         .catch(err => {
-          if (err.response.data.message) {
+          if (err.response) {
+            console.log(err);
+          }
+        });
+    },
+    removeBuddy(buddyId) {
+      axios.defaults.headers = {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      };
+
+      axios
+        .delete(API_URLS.BUDDY, { data: buddyId })
+        .then(res => {
+          if (!res.data) {
+            return;
+          }
+          console.log(res.data);
+        })
+        .catch(err => {
+          if (err.response) {
             console.log(err);
           }
         });
@@ -172,5 +207,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 48px;
+}
+
+.empty-state {
+  margin: 24px 0;
+  display: block;
 }
 </style>

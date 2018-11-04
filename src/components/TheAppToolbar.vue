@@ -51,8 +51,8 @@
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-btn round flat>BLOG</v-btn>
-        <v-btn round flat to="/view-matches">MY MATCHES</v-btn>
-        <v-btn round flat>HELP</v-btn>
+        <v-btn round flat to="/view-matches">FIND BUDDY</v-btn>
+        <v-btn round flat to="/my-buddies">MY BUDDIES</v-btn>
         <hr class="hr--long">
         <v-btn v-if="!isAuthenticated" to="/login" round flat >LOG IN</v-btn>
         <v-btn v-if="!isAuthenticated" outline round color="#f38b4c" to="/signup">SIGN UP FOR FREE</v-btn>

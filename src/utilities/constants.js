@@ -10,5 +10,8 @@ export const API_URLS = {
   UPDATE_PROFILE: `${BASE_URL}/update-profile`,
   VIEW_MATCHES: `${BASE_URL}/matches`,
   GET_INSTITUTION: `${BASE_URL}/institutions`,
-  GET_LOCATION: `${BASE_URL}/locations`
+  GET_LOCATION: `${BASE_URL}/locations`,
+  BUDDY: `${BASE_URL}/buddy`,
+  SENT_INVITATIONS: `${BASE_URL}/sent-invitations`,
+  PENDING_INVITATION: `${BASE_URL}/pending-invitations`
 };
