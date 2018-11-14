@@ -74,7 +74,10 @@
           <v-list dense>
             <!-- <v-subheader>Onboard Academy</v-subheader> -->
             <v-list-tile to="/profile">
-              <v-list-tile-title>My Profile</v-list-tile-title>
+              <v-list-tile-title>Profile</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile to="/messages">
+              <v-list-tile-title>Messages</v-list-tile-title>
             </v-list-tile>
             <v-list-tile @click="logOut">
               <v-list-tile-title>Logout</v-list-tile-title>
@@ -162,7 +165,7 @@ export default {
     avatarName() {
       return this.$store.state.viewer.name;
     },
-    avatar(){
+    avatar() {
       return this.$store.state.viewer.name.substring(0, 1);
     }
   },

@@ -8,6 +8,7 @@ import FindCompanion from "./views/FindCompanionPage.vue";
 import UserProfile from "./views/UserProfile.vue";
 import ViewMatches from "./views/ViewMatches.vue";
 import MyBuddies from "./views/MyBuddies.vue";
+import MyMessages from "./views/MyMessages.vue";
 import { isJwtValid } from "./utilities/auth";
 
 Vue.use(Router);
@@ -69,6 +70,14 @@ const router = new Router({
       path: "/my-buddies",
       name: "my-buddies",
       component: MyBuddies,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "/messages",
+      name: "my-messages",
+      component: MyMessages,
       meta: {
         requiresAuth: true
       }
