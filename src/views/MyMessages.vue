@@ -1,7 +1,9 @@
 <template>
   <div class="main-container">
+    
+    <!-- List of Chats - Left panel of message box -->
     <div class="message__list">
-      <v-card>
+      <v-card class="message__list__card">
         <v-toolbar color="primary" dark>
           <v-toolbar-title>Inbox</v-toolbar-title>
           <v-btn icon class="new-message__btn" @click="dialog = true">
@@ -10,32 +12,21 @@
         </v-toolbar>
 
         <v-list two-line class="list__scrollbar">
-          <template v-for="(item, index) in items">
-            <v-subheader
-              v-if="item.header"
-              :key="item.header"
-            >
-              {{ item.header }}
-            </v-subheader>
-
+          <template v-for="(item, index) in chatList">
             <v-divider
-              v-else-if="item.divider"
-              :inset="item.inset"
+              v-if="item.divider"
               :key="index"
             ></v-divider>
-
+ 
             <v-list-tile
               v-else
-              :key="item.title"
+              :key="index"
               avatar
-              @click=""
+              @click="viewChat(item)"
             >
-              <v-list-tile-avatar>
-                <img :src="item.avatar">
-              </v-list-tile-avatar>
               <v-list-tile-content>
-                <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                <v-list-tile-title v-html="item.members"></v-list-tile-title>
+                <v-list-tile-sub-title v-html="item.message"></v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
           </template>
@@ -44,49 +35,10 @@
     </div>
 
     <!-- Chat Box -->
-    <div class="message__block">
-      <v-card dark class="chat-members">
-        Conversation with: Vaibhav, Archit, Vishal
-      </v-card>
-      <div class="conversations__block" >
-        <template v-for="(chat, index) in conversations">
-
-        <v-card  :key="index" class="chat__card" v-if="chat.user === 'vishal'">
-          <v-avatar
-            size="50"
-            color="primary"
-          >
-            <span class="white--text headline">RS</span>
-          </v-avatar>
-          <div class="chat--message">
-            <span>{{chat.message}}</span>
-          </div>
-        </v-card>
-        <v-card v-else class="user__chat__card"  :key="index">
-          <div class="chat--message">
-            <span>{{chat.message}}</span>
-          </div>
-          <v-avatar
-            size="50"
-            color="primary"
-          >
-            <span class="white--text headline">RS</span>
-          </v-avatar>
-        </v-card>
-        </template>
-      </div>
-        <v-card class="chat__toolbar">
-          <v-text-field
-            class="chat__input"
-            name="text-message"
-            label="Message"
-            id="text-message"
-            v-model="textMessage"
-          />
-          <v-btn round color="primary" @click="sendMessage(textMessage)">Send</v-btn>
-            <v-btn icon @click="fileAttachDialog = true"> <v-icon>attach_file</v-icon></v-btn>
-        </v-card>
-    </div>
+    <ChatBox class="chat-box"
+      :memberList="groupMemberList"
+      :chatGroupId="chatGroupId"    
+    />
 
     <!-- New Message Modal -->
     <v-dialog
@@ -100,14 +52,23 @@
         </v-card-title>
         <v-autocomplete
           v-model="selectedBuddiesForChat"
-          :disabled="isUpdating"
           :items="buddiesList"
           box
           chips
           color="blue-grey lighten-2"
           label="Select"
+          return-object
+          item-text="text"
+          item-value="value"
           multiple
         >
+           <!-- Display in menu list -->
+          <template
+          slot="item"
+          slot-scope="data">
+            <v-list-tile-content v-text="data.item.text"></v-list-tile-content>
+          </template>
+        <!-- Display selected value  from list -->
           <template
             slot="selection"
             slot-scope="data"
@@ -116,140 +77,175 @@
               :selected="data.selected"
               close
               class="chip--select-multi"
-              @input="remove(data.item)"
+              @input="remove(data.item.value)"
             >
-              {{ data.item }}
+              {{ data.item.text }}
             </v-chip>
           </template>
-            <template
-            slot="item"
-            slot-scope="data">
-              <v-list-tile-content v-text="data.item"></v-list-tile-content>
-            </template>
         </v-autocomplete>
-        <v-btn round color="secondary">Start Chat</v-btn>
+        <v-btn round color="secondary" @click="startChat()" >Start Chat</v-btn>
       </v-card>
     </v-dialog>
 
-    <v-dialog
-      v-model="fileAttachDialog"
-      max-width="500px"
-      transition="dialog-transition"
-    >
-    <v-card>
-      <v-card-title>Attach File</v-card-title>
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-        <v-btn @click="submitFile()" round color="success">Upload</v-btn>
-    </v-card>
-      
-    </v-dialog>
+  
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { API_URLS } from "../utilities/constants";
+import ChatBox from "../components/ChatBox.vue";
+
 export default {
   name: "MyMessages",
+  components: {
+    ChatBox
+  },
   data: function() {
     return {
-      file: "",
-      textMessage: "",
+      chatGroupId: "",
       selectedBuddiesForChat: [],
       isUpdating: false,
       dialog: false,
-      fileAttachDialog: false,
       buddiesList: ["Archit", "Vishal", "Vaibhav", "Jeevan"],
+      groupMemberList: "",
       title: "My Messages",
-      conversations: [
+
+      chatList: [
         {
-          user: "vishal",
-          message: "Hello, How are you?"
+          members: "Archit, Vishal, Vaibhav",
+          message: "Last message",
+          groupId: ""
         },
-        {
-          user: "vishal",
-          message: "Where are you?"
-        },
-        {
-          user: "rohit",
-          message: "What's up?"
-        }
-      ],
-      items: [
-        { header: "Today" },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-          title: "Brunch this weekend?",
-          subtitle:
-            "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-          subtitle:
-            "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend."
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-          title: "Oui oui",
-          subtitle:
-            "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?"
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-          title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-          subtitle:
-            "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend."
-        },
-        { divider: true, inset: true },
-        {
-          avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-          title: "Oui oui",
-          subtitle:
-            "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?"
-        }
+        { divider: true, inset: true }
       ]
     };
+  },
+  mounted() {
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("token")
+    };
+
+    axios
+      .get(API_URLS.BUDDY)
+      .then(res => {
+        if (!res.data) {
+          return;
+        }
+        let buddyList = [];
+        res.data.buddyList.forEach(b => {
+          buddyList.push({
+            text: b.buddyProfile.user.name,
+            value: b.buddyProfile.user._id
+          });
+        });
+        this.buddiesList = buddyList;
+      })
+      .catch(err => {
+        if (err.response) {
+          console.log(err);
+        }
+      });
+
+    // Fetch all chat groups
+    axios
+      .get(API_URLS.CHAT)
+      .then(res => {
+        if (!res.data) {
+          return;
+        }
+        const groupChatIds = Object.keys(res.data.chatGroups);
+        groupChatIds.forEach(groupId => {
+          let membersName = [];
+          res.data.chatGroups[groupId].forEach(m => {
+            membersName.push(m.member.name);
+          });
+          this.chatList = [
+            {
+              members: membersName.join(", "),
+              groupId: groupId,
+              message: "Click to start"
+            },
+            { divider: true, inset: true },
+            ...this.chatList
+          ];
+        });
+      })
+      .catch(err => {
+        if (err.response) {
+          console.log(err);
+        }
+      });
   },
   methods: {
     findDetails() {
       console.log("Find details");
     },
-    sendMessage(msg) {
-      this.conversations = [
-        ...this.conversations,
-        { user: "vishal", message: msg }
-      ];
-      console.log("message", msg);
-    },
-    remove(item) {
-      console.log(item);
-      const index = this.selectedBuddiesForChat.indexOf(item);
-      if (index >= 0) this.selectedBuddiesForChat.splice(index, 1);
-      console.log(this.selectedBuddiesForChat);
-    },
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
-    },
-    submitFile() {
-      let formData = new FormData();
-      formData.append("file", this.file);
-      console.log(this.file);
-      this.fileAttachDialog = false;
 
-      // axios
-      //   .post("/single-file", formData, {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data"
-      //     }
-      //   })
-      //   .then(function() {
-      //     console.log("SUCCESS!!");
-      //   })
-      //   .catch(function() {
-      //     console.log("FAILURE!!");
-      //   });
+    remove(item) {
+      this.selectedBuddiesForChat = this.selectedBuddiesForChat.filter(
+        i => i.value !== item
+      );
+    },
+
+    startChat() {
+      // Hide create new chat dialouge
+      this.dialog = false;
+      // Call create chat api
+      this.createNewChat();
+    },
+    viewChat(chat) {
+      // Show chat in chat box on clicking on tile
+
+      // Pass groupId as prop in chatBox for selected chat.
+      this.chatGroupId = chat.groupId;
+      if (typeof chat === "object") {
+        this.groupMemberList = chat.members;
+      } else this.groupMemberList = "";
+    },
+    createNewChat() {
+      // Get members Id for creating chat group
+      const membersId = this.selectedBuddiesForChat.map(user => {
+        return user.value;
+      });
+
+      //Get members name to display in chat box
+      const membersName = this.selectedBuddiesForChat.map(user => {
+        return user.text;
+      });
+
+      // Clears the selected buddies list after chat creation
+      this.selectedBuddiesForChat = [];
+      axios.defaults.headers = {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      };
+      axios
+        .post(API_URLS.CHAT, { memberIds: membersId })
+        .then(res => {
+          if (!res.data) {
+            return;
+          }
+          // Get the group id for which chat is created
+          const groupId = res.data.members[0].chatGroup._id;
+          const newChat = {
+            members: membersName.join(", "),
+            groupId: groupId,
+            message: "Click to send message"
+          };
+          this.viewChat(newChat);
+          this.chatList = [
+            newChat,
+            { divider: true, inset: true },
+            ...this.chatList
+          ];
+        })
+        .catch(err => {
+          if (err.response) {
+            console.log(err);
+          }
+        });
     }
   },
   watch: {
@@ -274,6 +270,9 @@ export default {
 .message__list {
   max-width: calc(100% / 2);
   width: 100%;
+  .message__list__card {
+    height: 100%;
+  }
 }
 
 .list__scrollbar {
@@ -301,97 +300,15 @@ export default {
   }
 }
 
-.message__block {
-  display: flex;
-  flex-direction: column;
-  background-color: lightgray;
-  padding: 16px;
-  max-width: calc(100% / 2);
-  width: 100%;
-
-  .conversations__block {
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 350px;
-    &::-webkit-scrollbar-track {
-      box-shadow: 0px;
-      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-      background-color: #f5f5f5;
-    }
-
-    &::-webkit-scrollbar {
-      width: 12px;
-      background-color: #f5f5f5;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      box-shadow: 0px;
-      border-radius: 10px;
-      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-      background-color: whitesmoke;
-    }
-  }
-
-  .chat-members {
-    max-height: 65px;
-    height: 100%;
-    padding-top: 20px;
-    padding-left: 16px;
-    margin: -16px -16px 16px -16px;
-    background-color: $purple-taupe;
-  }
-}
-
-.chat__card {
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  border-radius: 16px;
-  margin: 4px 0;
-  max-width: 400px;
-
-  & /deep/ .v-avatar {
-    border-radius: 50% !important;
-  }
-}
-
-.user__chat__card {
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  margin: 4px 0;
-  border-radius: 16px;
-  max-width: 400px;
-  margin-left: auto;
-  justify-content: flex-end;
-
-  & /deep/ .v-avatar {
-    border-radius: 50% !important;
-  }
-}
-
-.chat--message {
-  margin: 8px;
-}
-
-.chat__toolbar {
-  border-radius: 8px;
-  margin-top: auto;
-  padding: 4px 8px;
-  display: flex;
-  align-items: center;
-
-  .chat__input {
-    padding-left: 8px;
-  }
-}
-
 .new-message__btn {
   margin-left: auto !important;
 }
 
 .new-message__modal {
   padding: 16px;
+}
+.chat-box {
+  max-width: 100%;
+  width: 100%;
 }
 </style>

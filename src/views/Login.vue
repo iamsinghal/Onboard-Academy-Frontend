@@ -47,6 +47,7 @@
 <script>
 import axios from "axios";
 import { API_URLS } from "../utilities/constants";
+import { decodeJwt } from "../utilities/auth";
 
 export default {
   name: "Login",
@@ -66,12 +67,16 @@ export default {
         if (!isValid) {
           return;
         }
-
         axios
           .post(API_URLS.LOGIN, this.user)
           .then(res => {
             localStorage.setItem("token", res.data.token);
-            this.$store.commit("setViewer", res.data.user);
+            const viewerObject = {
+              name: res.data.user.name,
+              email: res.data.user.email,
+              id: decodeJwt().id
+            };
+            this.$store.commit("setViewer", viewerObject);
             this.$router.push("/");
           })
           .catch(err => {

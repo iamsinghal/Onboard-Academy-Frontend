@@ -50,4 +50,8 @@ const invalidateJwt = () => {
   localStorage.removeItem(AUTH_TOKEN_KEY);
 };
 
-export { getTimeToJwtExpiry, isJwtValid, invalidateJwt };
+const decodeJwt = () => {
+  return jwtDecode(localStorage.getItem(AUTH_TOKEN_KEY));
+};
+
+export { getTimeToJwtExpiry, isJwtValid, invalidateJwt, decodeJwt };

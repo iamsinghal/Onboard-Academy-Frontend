@@ -75,7 +75,6 @@ export default {
           });
         });
         this.invitedBuddies = invitedBuddies;
-        console.log(this.invitedBuddies);
       })
       .catch(err => {
         if (err.response) {
