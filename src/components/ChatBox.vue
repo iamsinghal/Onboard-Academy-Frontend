@@ -15,11 +15,19 @@
           </v-avatar>
           <div class="chat--message">
             <span>{{chat.message}}</span>
+            <span v-if="chat.file">{{chat.file}}</span>
+            <v-btn icon v-if="chat.file" @click="downloadFile(chat.file)">
+              <v-icon>attach_file</v-icon>
+            </v-btn>
           </div>
         </v-card>
         <v-card v-else class="user__chat__card"  :key="index">
           <div class="chat--message">
             <span>{{chat.message}}</span>
+            <span v-if="chat.file">{{chat.file}}</span>
+            <v-btn icon v-if="chat.file" @click="downloadFile(chat.file)">
+              <v-icon>attach_file</v-icon>
+            </v-btn>
           </div>
           <v-avatar
             size="50"
@@ -164,12 +172,22 @@ export default {
           if (!res.data) {
             return;
           }
+          console.log(res.data);
           res.data.chatMessages.forEach(chat => {
-            this.conversations.push({
-              user: chat.sender.name,
-              message: chat.message,
-              id: chat.sender._id
-            });
+            if (!chat.file) {
+              this.conversations.push({
+                user: chat.sender.name,
+                message: chat.message,
+                id: chat.sender._id
+              });
+            } else {
+              this.conversations.push({
+                user: chat.sender.name,
+                message: chat.message,
+                id: chat.sender._id,
+                file: chat.file
+              });
+            }
           });
         })
         .catch(err => {
@@ -180,6 +198,28 @@ export default {
     },
     avatar(name) {
       return name.substring(0, 1);
+    },
+    downloadFile(filename) {
+      console.log(filename);
+
+      axios.defaults.headers = {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token")
+      };
+
+      axios
+        .get(`${API_URLS.GET_FILE}/${filename}`)
+        .then(res => {
+          if (!res.data) {
+            return;
+          }
+          window.open(res.data, "_blank");
+        })
+        .catch(err => {
+          if (err.response) {
+            console.log(err);
+          }
+        });
     }
   },
   watch: {
