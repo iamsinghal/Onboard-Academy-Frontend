@@ -49,6 +49,7 @@ export default {
         if (!res.data) {
           return;
         }
+        console.log(res.data);
         this.matchResult = res.data;
       })
       .catch(err => {
@@ -63,6 +64,7 @@ export default {
         if (!res.data) {
           return;
         }
+
         let invitedBuddies = [];
         res.data.buddyList.forEach(b => {
           invitedBuddies.push({
@@ -71,7 +73,8 @@ export default {
             origin: `${b.buddyProfile.origin.city},
             ${b.buddyProfile.origin.province}, 
             ${b.buddyProfile.origin.country} `,
-            id: b._id
+            buddyId: b._id,
+            id: b.buddyProfile.user._id
           });
         });
         this.invitedBuddies = invitedBuddies;

@@ -136,7 +136,11 @@ export default {
   data: () => ({
     value: "",
     institutionList: [],
-    programList: ["Mobile Solutions Development", "Computer Applications Development", "Computer Applications Security"],
+    programList: [
+      "Mobile Solutions Development",
+      "Computer Applications Development",
+      "Computer Applications Security"
+    ],
     sessionList: ["Sep 2017", "May 2018", "Sep 2018", "Jan 2019"],
     locationList: [],
     profile: {
@@ -145,14 +149,14 @@ export default {
         email: ""
       },
       origin: {
-       id: ""
+        id: ""
       },
       contact: {
         mobile: "",
         fbUrl: ""
       },
       institution: {
-        id:""
+        id: ""
       },
       programSession: "",
       program: ""
@@ -171,9 +175,15 @@ export default {
         if (!res.data) {
           return;
         }
-        const { mobile, facebookUrl, program, user, session, institution, origin } = res.data;
-        const { _id} = res.data.origin;
-
+        const {
+          mobile,
+          facebookUrl,
+          program,
+          user,
+          session,
+          institution,
+          origin
+        } = res.data;
         this.profile.user = user;
         this.profile.institution.id = institution._id;
         this.profile.programSession = session;
@@ -188,16 +198,17 @@ export default {
         }
       });
 
-
-      axios
+    axios
       .get(API_URLS.GET_INSTITUTION)
       .then(res => {
-        const ins =  res.data.institutions;
+        const ins = res.data.institutions;
 
         this.institutionList = ins.map(i => {
-          return {text: `${i.name}, ${i.location.city}, ${i.location.province}`, value:i._id}
+          return {
+            text: `${i.name}, ${i.location.city}, ${i.location.province}`,
+            value: i._id
+          };
         });
-        
       })
       .catch(err => {
         if (err) {
@@ -205,12 +216,15 @@ export default {
         }
       });
 
-      axios
+    axios
       .get(API_URLS.GET_LOCATION)
       .then(res => {
         const locations = res.data.locations;
         this.locationList = locations.map(loc => {
-          return {text: `${loc.city}, ${loc.province}, ${loc.country}`, value: loc._id}
+          return {
+            text: `${loc.city}, ${loc.province}, ${loc.country}`,
+            value: loc._id
+          };
         });
       })
       .catch(err => {

@@ -2,8 +2,8 @@
   <div class="view-match__container">
       <v-card>
         <div class="card-detail">
-          <v-btn v-if="removeBuddyBtn" @click="removeBuddy(matchedUser.id)" :disabled="isRemoveBuddy" class="remove-buddy" icon small color="white"> <v-icon>close</v-icon></v-btn>
-          <div class="initials">
+          <v-btn v-if="removeBuddyBtn" @click="removeBuddy(matchedUser.buddyId)" :disabled="isRemoveBuddy" class="remove-buddy" icon small color="white"> <v-icon>close</v-icon></v-btn>
+          <div @click="routeToUserProfile(matchedUser.id)" class="initials">
             {{initials(matchedUser.name)}}
           </div>
           <span>Name : {{matchedUser.name}}</span>
@@ -84,6 +84,10 @@ export default {
       console.log(buddyId);
       this.$emit("removeBuddy", { buddyId });
       this.isRemoveBuddy = true;
+    },
+    routeToUserProfile(userId) {
+      console.log(userId);
+      this.$router.push(`/profile/${userId}`);
     }
   }
 };
@@ -125,6 +129,7 @@ export default {
   color: grey;
   border: 1px solid grey;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .v-card {

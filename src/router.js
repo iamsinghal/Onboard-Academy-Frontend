@@ -10,6 +10,7 @@ import ViewMatches from "./views/ViewMatches.vue";
 import MyBuddies from "./views/MyBuddies.vue";
 import MyMessages from "./views/MyMessages.vue";
 import { isJwtValid } from "./utilities/auth";
+import UserPublicProfile from "./views/UserPublicProfile.vue";
 
 Vue.use(Router);
 
@@ -81,6 +82,11 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: "/profile/:userId",
+      name: "public-profile",
+      component: UserPublicProfile
     }
   ]
 });
