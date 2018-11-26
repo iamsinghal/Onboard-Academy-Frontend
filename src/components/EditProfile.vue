@@ -130,6 +130,7 @@
 <script>
 import axios from "axios";
 import { API_URLS } from "../utilities/constants";
+import defaultAvatar from "../assets/images/avatarImage.jpeg";
 
 export default {
   name: "EditProfile",
@@ -160,7 +161,8 @@ export default {
       },
       programSession: "",
       program: ""
-    }
+    },
+    defaultAvatar
   }),
   mounted() {
     axios.defaults.headers = {
@@ -235,6 +237,7 @@ export default {
   },
   computed: {
     avatarImageUrl() {
+      if (!this.$store.state.viewer.picUrl) return defaultAvatar;
       return this.$store.state.viewer.picUrl;
     }
   },

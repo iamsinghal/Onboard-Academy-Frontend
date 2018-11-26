@@ -149,6 +149,8 @@
 
 <script>
 import { isJwtValid } from "../utilities/auth";
+import defaultAvatar from "../assets/images/avatarImage.jpeg";
+
 export default {
   name: "TheAppToolbar",
   data: () => ({
@@ -156,7 +158,8 @@ export default {
     items: [
       { title: "Home", icon: "dashboard" },
       { title: "About", icon: "question_answer" }
-    ]
+    ],
+    defaultAvatar
   }),
   computed: {
     isMobileScreen() {
@@ -172,6 +175,7 @@ export default {
       return this.$store.state.viewer.name.substring(0, 1);
     },
     avatarImageUrl() {
+      if (!this.$store.state.viewer.picUrl) return defaultAvatar;
       return this.$store.state.viewer.picUrl;
     }
   },

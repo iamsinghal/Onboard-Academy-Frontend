@@ -3,7 +3,7 @@
     <v-card class="section-card">
       <h2 class="section-title">About</h2>
       <div class="about__container">
-        <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="Profile Picture">
+        <img :src="profile.picture" alt="Profile Picture">
         
         <!-- About Section -->
         <div class="about__text-fields">
@@ -37,6 +37,7 @@
 <script>
 import axios from "axios";
 import { API_URLS } from "../utilities/constants";
+import defaultAvatar from "../assets/images/avatarImage.jpeg";
 
 export default {
   name: "UserPublicProfile",
@@ -50,8 +51,10 @@ export default {
         fbUrl: ""
       },
       program: "",
-      origin: ""
-    }
+      origin: "",
+      picture: ""
+    },
+    defaultAvatar
   }),
   mounted() {
     const userId = this.$router.history.current.params.userId;
@@ -76,6 +79,9 @@ export default {
         this.profile.contact.fbUrl = res.data.facebookUrl;
         this.profile.origin = `${city}, ${province}, ${country}`;
         this.profile.program = res.data.program;
+        this.profile.picture = res.data.profilePic
+          ? res.data.profilePic
+          : defaultAvatar;
       })
       .catch(err => {
         if (err.response.data.message) {
