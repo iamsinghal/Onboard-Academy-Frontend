@@ -1,5 +1,5 @@
 // Include all the Api Urls
-const BASE_URL = "https://app.onboard.academy";
+export const BASE_URL = "https://app.onboard.academy";
 // const BASE_URL = "http://localhost:8080";
 
 // For file upload : "/chat/:chatGroup/file"

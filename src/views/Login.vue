@@ -36,8 +36,8 @@
           Log in
           </v-btn>
           OR
-          <v-btn dark color="#559AD1" round>Log in with Facebook</v-btn>
-          <v-btn dark color="#E8473C" round>Log in with Google</v-btn>
+          <v-btn @click="socialLogin('facebook')" dark color="#559AD1" round>Log in with Facebook</v-btn>
+          <!-- <v-btn @click="socialLogin('google')" dark color="#E8473C" round>Log in with Google</v-btn> -->
         </v-form>
       </v-card>
     </v-container>
@@ -48,12 +48,14 @@
 import axios from "axios";
 import { API_URLS } from "../utilities/constants";
 import { decodeJwt } from "../utilities/auth";
+import defaultAvatar from "../assets/images/avatarImage.jpeg";
 
 export default {
   name: "Login",
   data: () => ({
     user: {},
-    loginErrorMessage: ""
+    loginErrorMessage: "",
+    defaultAvatar: defaultAvatar
   }),
   methods: {
     // axios.defaults.headers = {
@@ -70,14 +72,7 @@ export default {
         axios
           .post(API_URLS.LOGIN, this.user)
           .then(res => {
-            localStorage.setItem("token", res.data.token);
-            const viewerObject = {
-              name: res.data.user.name,
-              email: res.data.user.email,
-              id: decodeJwt().id
-            };
-            this.$store.commit("setViewer", viewerObject);
-            this.$router.push("/");
+            this.saveToken(res.data);
           })
           .catch(err => {
             if (err.response.data.message) {
@@ -85,6 +80,76 @@ export default {
             }
           });
       });
+    },
+    socialLogin(provider) {
+      this.$auth
+        .authenticate(provider)
+        .then(res => {
+          console.log(res.data);
+          this.saveToken(res.data);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
+    saveToken(response) {
+      let viewerObject = {};
+      console.log(response);
+      console.log(response.token);
+      localStorage.setItem("token", response.token);
+      if (response.profilePic) {
+        viewerObject = {
+          name: response.user.name,
+          email: response.user.email,
+          id: decodeJwt().id,
+          picUrl: response.profilePic
+        };
+        this.$store.commit("setViewer", viewerObject);
+      } else {
+        axios.defaults.headers = {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token")
+        };
+
+        axios
+          .get(API_URLS.USER_PROFILE)
+          .then(res => {
+            console.log(res.data);
+            if (!res.data) {
+              return;
+            }
+
+            if (!res.data.profilePic) {
+              console.log("Profile Pic none");
+
+              viewerObject = {
+                name: response.user.name,
+                email: response.user.email,
+                id: decodeJwt().id,
+                picUrl: this.defaultAvatar
+              };
+            } else {
+              viewerObject = {
+                name: response.user.name,
+                email: response.user.email,
+                id: decodeJwt().id,
+                picUrl: res.data.profilePic
+              };
+            }
+
+            this.$store.commit("setViewer", viewerObject);
+          })
+          .catch(err => {
+            if (err) {
+              console.log(err);
+            }
+          });
+      }
+
+      // TODO : Vue Authenticate uses axios and set extra auth token in localstorage and use it further
+      // for axios header as Bearer token
+      // Remove duplicate or use one token
+      this.$router.push("/");
     }
   }
 };

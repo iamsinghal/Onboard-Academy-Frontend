@@ -3,7 +3,7 @@
     <v-card class="section-card">
       <h2 class="section-title">About</h2>
       <div class="about__container">
-        <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="Profile Picture">
+        <img :src="avatarImageUrl" alt="Profile Picture">
         
         <!-- About Section -->
         <div class="about__text-fields">
@@ -185,11 +185,11 @@ export default {
           origin
         } = res.data;
         this.profile.user = user;
-        this.profile.institution.id = institution._id;
+        this.profile.institution.id = institution ? institution._id : "";
         this.profile.programSession = session;
         this.profile.contact.mobile = mobile;
         this.profile.contact.fbUrl = facebookUrl;
-        this.profile.origin.id = origin._id;
+        this.profile.origin.id = origin ? origin._id : "";
         this.profile.program = program;
       })
       .catch(err => {
@@ -232,6 +232,11 @@ export default {
           console.log(err);
         }
       });
+  },
+  computed: {
+    avatarImageUrl() {
+      return this.$store.state.viewer.picUrl;
+    }
   },
   methods: {
     updateProfile() {

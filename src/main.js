@@ -5,6 +5,10 @@ import router from "./router";
 import Vuex from "vuex";
 import VeeValidate from "vee-validate";
 import createPersistedState from "vuex-persistedstate";
+import VueAuthenticate from "vue-authenticate";
+import VueAxios from "vue-axios";
+import axios from "axios";
+import { BASE_URL } from "./utilities/constants";
 
 //css
 import "vuetify/dist/vuetify.min.css";
@@ -30,6 +34,18 @@ Vue.use(Vuetify, {
 });
 Vue.use(Vuex);
 Vue.use(VeeValidate);
+Vue.use(VueAxios, axios);
+Vue.use(VueAuthenticate, {
+  baseUrl: BASE_URL, // Your API domain
+
+  providers: {
+    facebook: {
+      clientId: "611081999307305",
+      url: `${BASE_URL}/auth/facebook`,
+      redirectUri: BASE_URL // Your client app URL
+    }
+  }
+});
 
 const store = new Vuex.Store({
   plugins: [createPersistedState()],

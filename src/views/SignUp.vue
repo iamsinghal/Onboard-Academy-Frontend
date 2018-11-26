@@ -40,9 +40,9 @@
           >
           Get Started
           </v-btn>
-          OR
-          <v-btn dark color="#559AD1" round>Sign up with Facebook</v-btn>
-          <v-btn dark color="#E8473C" round>Sign up with Google</v-btn>
+          <!-- OR -->
+          <!-- <v-btn dark color="#559AD1" round>Sign up with Facebook</v-btn> -->
+          <!-- <v-btn dark color="#E8473C" round>Sign up with Google</v-btn> -->
         </v-form>
       </v-card>
     </v-container>

@@ -70,7 +70,9 @@
             color="primary"
             slot="activator"
           >
-            <span class="white--text headline">{{avatar}}</span>
+    
+          <img :src="avatarImageUrl" alt="profileImage">
+            <!-- <span class="white--text headline">{{avatar}}</span> -->
           </v-avatar>
           <v-list dense>
             <!-- <v-subheader>Onboard Academy</v-subheader> -->
@@ -168,6 +170,9 @@ export default {
     },
     avatar() {
       return this.$store.state.viewer.name.substring(0, 1);
+    },
+    avatarImageUrl() {
+      return this.$store.state.viewer.picUrl;
     }
   },
   methods: {
