@@ -8,7 +8,7 @@ import createPersistedState from "vuex-persistedstate";
 import VueAuthenticate from "vue-authenticate";
 import VueAxios from "vue-axios";
 import axios from "axios";
-import { BASE_URL } from "./utilities/constants";
+import { BASE_URL, CLIENT_URL } from "./utilities/constants";
 
 //css
 import "vuetify/dist/vuetify.min.css";
@@ -42,7 +42,7 @@ Vue.use(VueAuthenticate, {
     facebook: {
       clientId: "611081999307305",
       url: `${BASE_URL}/auth/facebook`,
-      redirectUri: BASE_URL // Your client app URL
+      redirectUri: CLIENT_URL // Your client app URL
     }
   }
 });
