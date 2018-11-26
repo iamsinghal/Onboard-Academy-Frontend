@@ -8,9 +8,7 @@
         <!-- About Section -->
         <div class="about__text-fields">
           <div>Name :{{profile.user.name}}</div>
-
-          <div>Email : {{profile.user.email}}</div>
-          
+          <div v-if="profile.user.email">Email : {{profile.user.email}}</div>
         </div>
       </div>
     </v-card>
@@ -26,9 +24,9 @@
     <!-- Contact Information -->
     <v-card class="section-card">
       <h2 class="section-title">Contact</h2>
-      <div> Phone: {{profile.contact.mobile}}</div>
-      <div> Email: {{profile.user.email}}</div>
-      <div> Facebook: {{profile.contact.fbUrl}}</div>
+      <div v-if="profile.contact.mobile"> Phone: {{profile.contact.mobile}}</div>
+      <div v-if="profile.user.email"> Email: {{profile.user.email}}</div>
+      <div v-if="profile.contact.fbUrl"> Facebook: {{profile.contact.fbUrl}}</div>
       <div> Location: {{profile.origin}}</div>
     </v-card>
   </div>

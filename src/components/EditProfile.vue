@@ -50,6 +50,16 @@
     <!-- Contact Information -->
     <v-card class="section-card">
       <h2 class="section-title">Contact</h2>
+      <v-autocomplete
+        :loading="loading"
+        :items="locationList"
+        :search-input.sync="search"
+        v-model="profile.origin.id"
+        cache-items
+        flat
+        
+        label="Home Address"
+      />
       <v-text-field
         v-model="profile.contact.mobile"
         name="phone"
@@ -74,16 +84,25 @@
         label="Facebook"
         id="facebook"
       />
-      <v-select
-        :items="locationList"
-        v-model="profile.origin.id"
-        label="Home Address"
-        :menu-props="{offsetY: '', nudgeTop: '-8'}"
-      />
       <div class="action-button">
         <v-btn class="update-btn" color="success" @click="updateProfile()">Update</v-btn>
       </div>
     </v-card>
+    <v-snackbar
+      v-model="snackbar"
+      bottom
+      left
+      :timeout="timeout"
+    >
+      {{ toastMessage }}
+      <v-btn
+        color="pink"
+        flat
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </div>
 
 </template>
@@ -162,7 +181,10 @@ export default {
       programSession: "",
       program: ""
     },
-    defaultAvatar
+    defaultAvatar,
+    toastMessage: "",
+    snackbar: false,
+    timeout: 4000
   }),
   mounted() {
     axios.defaults.headers = {
@@ -261,6 +283,8 @@ export default {
         .post(API_URLS.UPDATE_PROFILE, postBody)
         .then(res => {
           console.log(res);
+          this.toastMessage = "Profile updated successfully!";
+          this.snackbar = true;
         })
         .catch(err => {
           console.log(err);
