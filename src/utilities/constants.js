@@ -19,5 +19,7 @@ export const API_URLS = {
   PENDING_INVITATION: `${BASE_URL}/pending-invitations`,
   CHAT: `${BASE_URL}/chat`,
   GET_FILE: `${BASE_URL}/file`,
-  PUBLIC_PROFILE: `${BASE_URL}/user`
+  PUBLIC_PROFILE: `${BASE_URL}/user`,
+  SEND_FEEDBACK: `${BASE_URL}/feedback`,
+  USER_SETTINGS: `${BASE_URL}/user-settings`
 };

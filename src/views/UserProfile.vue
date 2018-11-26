@@ -16,16 +16,13 @@
           Settings
         </v-tab>
         <!-- Profile Tab Content -->
-        <v-tab-item>
+      <v-tab-item>
         <EditProfile />
-        </v-tab-item>
+      </v-tab-item>
+
       <!-- Setting Tab Content -->
       <v-tab-item>
-        <v-card color="floralWhite" class="tab__cards">
-          <v-card-text>
-            Setting Content
-          </v-card-text>
-        </v-card>
+        <Settings />
       </v-tab-item>
       </v-tabs>
   </div>  
@@ -33,10 +30,12 @@
 
 <script>
 import EditProfile from "../components/EditProfile.vue";
+import Settings from "../components/Settings.vue";
 export default {
   name: "UserProfile",
   components: {
-    EditProfile
+    EditProfile,
+    Settings
   },
   data: () => ({
     tabs: null,

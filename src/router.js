@@ -11,6 +11,7 @@ import MyBuddies from "./views/MyBuddies.vue";
 import MyMessages from "./views/MyMessages.vue";
 import { isJwtValid } from "./utilities/auth";
 import UserPublicProfile from "./views/UserPublicProfile.vue";
+import ContactUs from "./views/ContactUs.vue";
 
 Vue.use(Router);
 
@@ -87,6 +88,11 @@ const router = new Router({
       path: "/profile/:userId",
       name: "public-profile",
       component: UserPublicProfile
+    },
+    {
+      path: "/contact",
+      name: "contact-us",
+      component: ContactUs
     }
   ]
 });
