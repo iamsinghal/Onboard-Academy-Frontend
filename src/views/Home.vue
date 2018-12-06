@@ -1,9 +1,9 @@
 <template>
   <div class="main-background">
     <v-container>
-    <div class="landing-page--text">Onboarding made easier</div>
-    <div class="landing-page__sub-heading">Find your buddy before you arrive</div>
-    <v-btn class="find-buddy__button" to="/find-companion" large color="primary">Find a buddy NOW</v-btn>
+      <div class="landing-page--text">Onboarding made easier</div>
+      <div class="landing-page__sub-heading">Find your buddy before you arrive</div>
+      <v-btn class="find-buddy__button" to="/find-companion" large color="primary">Find a buddy NOW</v-btn>
     </v-container>
   </div>
 </template>
@@ -50,7 +50,7 @@
   }
 
   @include xsDown {
-    height: 44px;
+    height: 56px;
     width: unset;
     margin-bottom: 48px;
   }

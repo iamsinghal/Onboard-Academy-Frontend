@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <h2>View Matches</h2>
+    <h2 class="section__title">View Matches</h2>
     <div class="matched-results">
       <UserCard
       v-for="(user, index) in matchResult" :key="index"
@@ -11,7 +11,7 @@
     />
     </div>
 
-    <h2>Sent Invitation</h2>
+    <h2 class="section__title">Sent Invitation</h2>
     <div class="matched-results">
       <UserCard
       v-for="(user, index) in invitedBuddies" :key="index"
@@ -115,22 +115,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../styles/_breakpoints.scss";
+
 .view-match__container {
   display: flex;
   flex-wrap: wrap;
   height: auto;
+  max-width: calc(100% / 3);
+  width: 100%;
+
+  @include mdDown {
+    max-width: calc(100% / 2);
+  }
+  @include xsDown {
+    max-width: 100%;
+  }
+
+  @include xlUp {
+    max-width: calc(100% / 4);
+  }
+
 }
 
-.v-card {
-  margin: 8px;
-  border-radius: 8px;
-  max-width: 200px;
-  width: 100%;
+.section__title {
+  margin-left: 8px;
+  margin-bottom: 8px;
 }
 
 .main-container {
   text-align: left;
-  padding: 48px;
+  padding: 24px 48px;
+
+  @include xsDown {
+    padding: 8px 16px;
+  }
 }
 
 .card-detail {
@@ -148,11 +166,6 @@ export default {
   }
 }
 
-.v-card {
-  max-width: 100%;
-  width: fit-content;
-}
-
 .initials {
   max-width: 200px;
   font-size: 100px;
@@ -166,7 +179,7 @@ export default {
 }
 
 .user__card {
-  max-width: 400px;
+  // max-width: 400px;
 }
 
 .matched-results {
@@ -174,5 +187,10 @@ export default {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 48px;
+
+  & /deep/ .v-card {
+    border-radius: 8px;
+    width: 100%;
+  }
 }
 </style>

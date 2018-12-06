@@ -91,10 +91,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../styles/_breakpoints.scss";
+
 .main-container {
   padding: 24px 48px;
   text-align: center;
   margin-bottom: 100px;
+
+  @include xsDown {
+    padding: 8px 16px;
+  }
 }
 .section-card {
   max-width: 80%;
@@ -103,15 +109,25 @@ export default {
   text-align: left;
   margin-bottom: 24px;
   border-radius: 8px;
+
+  @include xsDown {
+    max-width: 100%;
+  }
 }
 
 .about__text-fields {
+  margin-top: 24px;
   margin-left: 24px;
   width: 100%;
 }
 
 .about__container {
   display: flex;
+
+  @include xsDown {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .section-title {

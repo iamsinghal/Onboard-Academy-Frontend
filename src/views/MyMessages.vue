@@ -260,18 +260,34 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/settings.scss";
+@import "../styles/_breakpoints.scss";
 
 .main-container {
   text-align: left;
   padding: 48px;
   display: flex;
+
+  @include xsDown {
+    padding: 8px 16px;
+    flex-direction: column;
+  }
 }
 
 .message__list {
   max-width: calc(100% / 2);
   width: 100%;
+
+  @include xsDown {
+    max-width: 100%;
+    margin-bottom: 24px;
+  }
   .message__list__card {
     height: 100%;
+
+    @include xsDown {
+      min-height: 300px;
+      height: 100%;
+    }
   }
 }
 
@@ -309,6 +325,13 @@ export default {
 }
 .chat-box {
   max-width: 100%;
+  min-height: 300px;
+
   width: 100%;
+
+  @include xsDown {
+    min-height: 300px;
+    max-height: 500px;
+  }
 }
 </style>

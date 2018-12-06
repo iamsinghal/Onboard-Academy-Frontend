@@ -34,7 +34,7 @@
             height="400px"
           >
           <span class="action--back">
-            <v-icon disabled size="48"></v-icon>
+            <v-icon class="chevron--hidden" size="48">chevron_left</v-icon>
           </span>
           <div>
             <span class="card__title">Which College you are going to study in Canada?</span>
@@ -125,7 +125,7 @@
               />
           </div>
           <span class="action--forward">
-            <v-icon disabled size="48" @click="e1 = 1"/>
+            <v-icon class="chevron--hidden" disabled size="48" @click="e1 = 1"> chevron_right </v-icon>
           </span>
           </v-card>
           <v-btn color="success" @click="findMatches()" class="find-matches-btn">Find Matches NOW</v-btn>
@@ -138,6 +138,8 @@
 
 <style lang="scss" scoped>
 @import "../styles/settings.scss";
+@import "../styles/_breakpoints.scss";
+
 
 .card__title {
   display: block;
@@ -146,6 +148,10 @@
   padding: 10px;
   margin-bottom: 100px;
   color: $purple-taupe;
+
+  @include xsDown {
+    font-size: 24px;
+  }
 }
 
 .stepper--hide {
@@ -189,6 +195,10 @@
   & /deep/ .v-btn__content {
     font-size: 24px;
   }
+}
+
+.chevron--hidden {
+  visibility: hidden;
 }
 </style>
 

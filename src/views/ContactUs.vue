@@ -67,16 +67,28 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "../styles/_breakpoints.scss";
+
 .main-container {
   padding: 24px 48px;
   text-align: center;
   margin-bottom: 100px;
+
+  @include xsDown {
+    padding: 0 16px;
+  }
 }
 
 .card--width {
   max-width: 50%;
   margin: 24px auto;
   padding: 24px;
+  border-radius: 8px;
+
+  @include xsDown {
+    max-width: 100%;
+    margin: 16px auto;
+  }
 }
 
 .send__btn {

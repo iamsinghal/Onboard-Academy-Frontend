@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <h2>Pending Invitations</h2>
+    <h2 class="section__title">Pending Invitations</h2>
     <div v-if="pendingInvitations.length" class="matched-results">
       <UserCard
       v-for="(user, index) in pendingInvitations" :key="index"
@@ -12,7 +12,7 @@
     </div>
     <span v-else  class="empty-state" >You have no pending connection!</span>
     
-    <h2> Your Buddies</h2>
+    <h2 class="section__title"> Your Buddies</h2>
     <div class="matched-results">
       <UserCard
       v-for="(user, index) in buddyList" :key="index"
@@ -148,6 +148,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../styles/_breakpoints.scss";
+
 .view-match__container {
   display: flex;
   flex-wrap: wrap;
@@ -164,6 +166,11 @@ export default {
 .main-container {
   text-align: left;
   padding: 48px;
+
+  @include xsDown {
+    padding: 8px 16px;
+    flex-direction: column;
+  }
 }
 
 .card-detail {
@@ -181,11 +188,6 @@ export default {
   }
 }
 
-.v-card {
-  max-width: 100%;
-  width: fit-content;
-}
-
 .initials {
   max-width: 200px;
   font-size: 100px;
@@ -198,19 +200,24 @@ export default {
   border-radius: 8px;
 }
 
-.user__card {
-  max-width: 400px;
-}
-
 .matched-results {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 48px;
+
+  & /deep/ .view-match__container.user__card {
+    width: 100%;
+  }
 }
 
 .empty-state {
-  margin: 24px 0;
+  margin: 24px 0 24px 8px;
   display: block;
+}
+
+.section__title {
+  margin-left: 8px;
+  margin-bottom: 8px;
 }
 </style>

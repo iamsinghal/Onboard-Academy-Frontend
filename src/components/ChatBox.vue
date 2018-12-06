@@ -265,10 +265,8 @@ export default {
 .chat-members {
   max-height: 65px;
   height: 100%;
-  padding-top: 20px;
-  padding-left: 16px;
+  padding: 20px 0px 20px 16px;
   margin: -16px -16px 16px -16px;
-  // background-color: $purple-taupe;
 }
 
 .chat__card {
