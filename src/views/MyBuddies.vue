@@ -207,7 +207,12 @@ export default {
   margin-bottom: 48px;
 
   & /deep/ .view-match__container.user__card {
-    width: 100%;
+    width: calc(100% / 3);
+  }
+  @include xsDown {
+    & /deep/ .view-match__container.user__card {
+      width: 100%;
+    }
   }
 }
 
