@@ -33,9 +33,9 @@
             round
             @click="login"
           >
-          Log in
+            Log in
           </v-btn>
-          OR
+            OR
           <v-btn @click="socialLogin('facebook')" dark color="#559AD1" round>Log in with Facebook</v-btn>
           <!-- <v-btn @click="socialLogin('google')" dark color="#E8473C" round>Log in with Google</v-btn> -->
         </v-form>
@@ -157,6 +157,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/settings";
+@import "../styles/_breakpoints.scss";
+
 
 .bg--color {
   background-color: $floral-white;
@@ -168,6 +170,10 @@ export default {
   max-width: calc(100% / 2);
   padding: 24px;
   border-radius: 8px;
+
+  @include xsDown {
+    max-width: 100%;
+  }
 }
 
 .v-input {
@@ -185,6 +191,11 @@ export default {
   width: 100%;
   font-size: 10px;
   transform: scale(1.5);
+
+  @include mdDown {
+    max-width: 150px;
+    width: 100%;
+  }
 }
 
 .login--text {
@@ -194,5 +205,9 @@ export default {
 
 .signup--link {
   text-decoration: none;
+
+  @include mdDown {
+    display: block;
+  }
 }
 </style>

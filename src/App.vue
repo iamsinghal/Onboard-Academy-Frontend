@@ -5,7 +5,7 @@
       <v-content>
         <router-view />
       </v-content>
-      <BottomNavBar v-if="isMobileScreen"/>
+      <!-- <BottomNavBar v-if="isMobileScreen"/> -->
     </v-app>
   </div>
 </template>

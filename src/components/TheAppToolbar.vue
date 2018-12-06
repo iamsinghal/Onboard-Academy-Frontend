@@ -9,12 +9,14 @@
       app
     >
         <v-list class="pa-1">
-          <v-list-tile avatar>
+        <v-btn v-if="!isAuthenticated" to="/login" round flat >LOG IN</v-btn>
+        <v-btn v-if="!isAuthenticated" outline round color="#f38b4c" to="/signup">SIGN UP</v-btn>
+          <v-list-tile v-if="isAuthenticated" avatar>
             <v-list-tile-avatar>
-              <img src="https://randomuser.me/api/portraits/men/85.jpg">
+              <img :src="avatarImageUrl" alt="profileImage">
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>John Leider</v-list-tile-title>
+              <v-list-tile-title>{{avatarName}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -23,6 +25,8 @@
           <v-list-tile
             v-for="item in items"
             :key="item.title"
+            @click="navigator(item.url)"
+            v-if="isOptionShown(item.auth)"
           >
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -51,8 +55,8 @@
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-btn round flat>BLOG</v-btn>
-        <v-btn round flat to="/view-matches">FIND BUDDY</v-btn>
-        <v-btn round flat to="/my-buddies">MY BUDDIES</v-btn>
+        <v-btn v-if="isAuthenticated" round flat to="/view-matches">FIND BUDDY</v-btn>
+        <v-btn  v-if="isAuthenticated" round flat to="/my-buddies">MY BUDDIES</v-btn>
         <v-btn round flat to="/contact">CONTACT</v-btn>
         <hr class="hr--long">
         <v-btn v-if="!isAuthenticated" to="/login" round flat >LOG IN</v-btn>
@@ -124,6 +128,10 @@
   font-weight: 100;
   letter-spacing: 2px;
 
+  @include mdDown {
+    display: none;
+  }
+
   @include xxsDown {
     display: none;
   }
@@ -156,8 +164,12 @@ export default {
   data: () => ({
     drawer: null,
     items: [
-      { title: "Home", icon: "dashboard" },
-      { title: "About", icon: "question_answer" }
+      { title: "Profile", icon: "account_circle", url: "/profile", auth: true },
+      { title: "Find Buddy", icon: "search", url: "/view-matches", auth: true },
+      { title: "My Buddies", icon: "people", url: "/my-buddies", auth: true },
+      { title: "Message", icon: "message", url: "/messages", auth: true },
+      { title: "Contact", icon: "info", url: "/contact", auth: false },
+      { title: "Logout", icon: "power_settings_new", url: "/logout", auth: true }
     ],
     defaultAvatar
   }),
@@ -184,6 +196,18 @@ export default {
       localStorage.removeItem("token");
       this.$store.commit("setViewer", null);
       this.$router.push("/");
+    },
+    navigator(url) {
+      if (url === "/logout") {
+        this.logOut();
+        return;
+      }
+      this.$router.push(url);
+    },
+    isOptionShown(authRequired) {
+      if (authRequired) {
+        return this.isAuthenticated;
+      } else return true;
     }
   }
 };

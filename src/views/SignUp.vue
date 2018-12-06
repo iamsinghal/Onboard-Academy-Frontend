@@ -93,6 +93,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/settings";
+@import "../styles/_breakpoints.scss";
+
 .bg--color {
   background-color: $floral-white;
   height: 100%;
@@ -103,6 +105,10 @@ export default {
   max-width: calc(100% / 2);
   padding: 24px;
   border-radius: 8px;
+
+  @include xsDown {
+    max-width: 100%;
+  }
 }
 
 .v-input {
@@ -120,6 +126,11 @@ export default {
   width: 100%;
   font-size: 10px;
   transform: scale(1.5);
+
+  @include mdDown {
+    max-width: 150px;
+    width: 100%;
+  }
 }
 
 .title--color {
