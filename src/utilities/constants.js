@@ -1,7 +1,7 @@
 // Include all the Api Urls
 export const BASE_URL = "https://app.onboard.academy";
-// export const CLIENT_URL = "https://onboard.academy";
-export const CLIENT_URL = "http://localhost:8080";
+export const CLIENT_URL = "https://onboard.academy";
+// export const CLIENT_URL = "http://localhost:8080";
 
 // const BASE_URL = "http://localhost:8080";
 
