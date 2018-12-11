@@ -1,0 +1,15 @@
+{
+  "name": "OnboardCanada",
+  "short_name": "OnboardCanada",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#424242",
+  "background_color": "#F38B4C",
+  "icons": [
+    {
+      "src": "icons/ocicon.jpg",
+      "sizes": "96x96 128x128 256x256",
+      "types": "image/jpg"
+    }
+  ]
+}
