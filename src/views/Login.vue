@@ -46,9 +46,9 @@
 
 <script>
 import axios from "axios";
-import { API_URLS } from "../utilities/constants";
-import { decodeJwt } from "../utilities/auth";
-import defaultAvatar from "../assets/images/avatarImage.jpeg";
+import { API_URLS } from "@utilities/constants.js";
+import { decodeJwt } from "@utilities/auth.js";
+import defaultAvatar from "@assets/images/avatarImage.jpeg";
 
 export default {
   name: "Login",
@@ -156,9 +156,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/settings";
-@import "../styles/_breakpoints.scss";
-
+@import "@styles/settings";
+@import "@styles/_breakpoints.scss";
 
 .bg--color {
   background-color: $floral-white;

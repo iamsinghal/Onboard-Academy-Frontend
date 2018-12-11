@@ -28,8 +28,8 @@
 
 <script>
 import axios from "axios";
-import { API_URLS } from "../utilities/constants";
-import UserCard from "../components/UserCard.vue";
+import { API_URLS } from "@utilities/constants";
+import UserCard from "@components/UserCard.vue";
 
 export default {
   name: "ViewMatches",
@@ -148,7 +148,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/_breakpoints.scss";
+@import "@styles/_breakpoints.scss";
 
 .view-match__container {
   display: flex;

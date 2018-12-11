@@ -25,8 +25,8 @@
 
 <script>
 import axios from "axios";
-import { API_URLS } from "../utilities/constants";
-import UserCard from "../components/UserCard.vue";
+import { API_URLS } from "@utilities/constants";
+import UserCard from "@components/UserCard.vue";
 
 export default {
   name: "ViewMatches",
@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/_breakpoints.scss";
+@import "@styles/_breakpoints.scss";
 
 .view-match__container {
   display: flex;
@@ -134,7 +134,6 @@ export default {
   @include xlUp {
     max-width: calc(100% / 4);
   }
-
 }
 
 .section__title {
@@ -176,10 +175,6 @@ export default {
   color: grey;
   border: 1px solid grey;
   border-radius: 8px;
-}
-
-.user__card {
-  // max-width: 400px;
 }
 
 .matched-results {

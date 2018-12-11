@@ -34,8 +34,8 @@
 
 <script>
 import axios from "axios";
-import { API_URLS } from "../utilities/constants";
-import defaultAvatar from "../assets/images/avatarImage.jpeg";
+import { API_URLS } from "@utilities/constants";
+import defaultAvatar from "@assets/images/avatarImage.jpeg";
 
 export default {
   name: "UserPublicProfile",
@@ -91,7 +91,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/_breakpoints.scss";
+@import "@styles/_breakpoints.scss";
 
 .main-container {
   padding: 24px 48px;

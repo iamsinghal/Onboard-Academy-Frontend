@@ -9,8 +9,8 @@
 </template>
 
 <style lang="scss" scoped>
-@import "../styles/settings.scss";
-@import "../styles/_breakpoints.scss";
+@import "@styles/settings.scss";
+@import "@styles/_breakpoints.scss";
 
 .landing-page--text {
   // padding-top: 48px;
@@ -57,7 +57,7 @@
 }
 
 .main-background {
-  background-image: url("../assets/images/bg-image.png") !important;
+  background-image: url("~@assets/images/bg-image.png") !important;
   // background-position: center center !important;
   background-size: cover !important;
   height: 100%;

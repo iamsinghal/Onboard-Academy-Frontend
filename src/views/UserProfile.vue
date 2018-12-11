@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import EditProfile from "../components/EditProfile.vue";
-import Settings from "../components/Settings.vue";
+import EditProfile from "@components/EditProfile.vue";
+import Settings from "@components/Settings.vue";
 export default {
   name: "UserProfile",
   components: {
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/settings.scss";
+@import "@styles/settings.scss";
 
 .v-tabs__div {
   width: calc(100% / 2);

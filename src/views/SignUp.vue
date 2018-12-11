@@ -51,7 +51,7 @@
 
 <script>
 import axios from "axios";
-import { API_URLS } from "../utilities/constants";
+import { API_URLS } from "@utilities/constants";
 
 export default {
   name: "SignUp",
@@ -92,8 +92,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/settings";
-@import "../styles/_breakpoints.scss";
+@import "@styles/settings.scss";
+@import "@styles/_breakpoints.scss";
 
 .bg--color {
   background-color: $floral-white;

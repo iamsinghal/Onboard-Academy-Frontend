@@ -93,8 +93,8 @@
 
 <script>
 import axios from "axios";
-import { API_URLS } from "../utilities/constants";
-import ChatBox from "../components/ChatBox.vue";
+import { API_URLS } from "@utilities/constants";
+import ChatBox from "@components/ChatBox.vue";
 
 export default {
   name: "MyMessages",
@@ -259,8 +259,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/settings.scss";
-@import "../styles/_breakpoints.scss";
+@import "@styles/settings.scss";
+@import "@styles/_breakpoints.scss";
 
 .main-container {
   text-align: left;

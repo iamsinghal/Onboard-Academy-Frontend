@@ -137,9 +137,8 @@
 </template>
 
 <style lang="scss" scoped>
-@import "../styles/settings.scss";
-@import "../styles/_breakpoints.scss";
-
+@import "@styles/settings.scss";
+@import "@styles/_breakpoints.scss";
 
 .card__title {
   display: block;
@@ -205,19 +204,23 @@
 
 <script>
 import axios from "axios";
-import { API_URLS } from "../utilities/constants";
+import { API_URLS } from "@utilities/constants";
 
 export default {
   data: () => ({
     e1: 0,
     institutionList: [],
     institutionSelected: "",
-    programList: ["Mobile Solutions Development", "Computer Applications Development", "Computer Applications Security"],
-    programSelected:"",
+    programList: [
+      "Mobile Solutions Development",
+      "Computer Applications Development",
+      "Computer Applications Security"
+    ],
+    programSelected: "",
     sessionList: ["Sep 2017", "May 2018", "Sep 2018", "Jan 2019"],
     sessionSelected: "",
     locationList: [],
-    locationSelected: "",
+    locationSelected: ""
   }),
   computed: {
     stepperHide() {
@@ -233,12 +236,14 @@ export default {
     axios
       .get(API_URLS.GET_INSTITUTION)
       .then(res => {
-        const ins =  res.data.institutions;
+        const ins = res.data.institutions;
 
         this.institutionList = ins.map(i => {
-          return {text: `${i.name}, ${i.location.city}, ${i.location.province}`, value:i._id}
+          return {
+            text: `${i.name}, ${i.location.city}, ${i.location.province}`,
+            value: i._id
+          };
         });
-        
       })
       .catch(err => {
         if (err) {
@@ -246,12 +251,15 @@ export default {
         }
       });
 
-      axios
+    axios
       .get(API_URLS.GET_LOCATION)
       .then(res => {
         const locations = res.data.locations;
         this.locationList = locations.map(loc => {
-          return {text: `${loc.city}, ${loc.province}, ${loc.country}`, value: loc._id}
+          return {
+            text: `${loc.city}, ${loc.province}, ${loc.country}`,
+            value: loc._id
+          };
         });
       })
       .catch(err => {
@@ -261,7 +269,7 @@ export default {
       });
   },
   methods: {
-    findMatches(){
+    findMatches() {
       axios.defaults.headers = {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token")
@@ -278,7 +286,7 @@ export default {
         .post(API_URLS.UPDATE_PROFILE, postBody)
         .then(res => {
           console.log(res);
-          this.$router.push("/view-matches")
+          this.$router.push("/view-matches");
         })
         .catch(err => {
           console.log(err);

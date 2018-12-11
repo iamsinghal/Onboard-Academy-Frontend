@@ -43,7 +43,7 @@
       <router-link to="/">
         <img
         class="organiztion-logo"
-        src="../assets/images/oc-logo-transparent.png"
+        src="@assets/images/oc-logo-transparent.png"
         alt="Onboard Canada Logo"
       >
       </router-link>
@@ -101,7 +101,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import "../styles/_breakpoints.scss";
+@import "@styles/_breakpoints.scss";
 
 .app-toolbar {
   & /deep/ .v-btn__content {
@@ -156,8 +156,8 @@
 </style>
 
 <script>
-import { isJwtValid } from "../utilities/auth";
-import defaultAvatar from "../assets/images/avatarImage.jpeg";
+import { isJwtValid } from "@utilities/auth";
+import defaultAvatar from "@assets/images/avatarImage.jpeg";
 
 export default {
   name: "TheAppToolbar",
@@ -169,7 +169,12 @@ export default {
       { title: "My Buddies", icon: "people", url: "/my-buddies", auth: true },
       { title: "Message", icon: "message", url: "/messages", auth: true },
       { title: "Contact", icon: "info", url: "/contact", auth: false },
-      { title: "Logout", icon: "power_settings_new", url: "/logout", auth: true }
+      {
+        title: "Logout",
+        icon: "power_settings_new",
+        url: "/logout",
+        auth: true
+      }
     ],
     defaultAvatar
   }),

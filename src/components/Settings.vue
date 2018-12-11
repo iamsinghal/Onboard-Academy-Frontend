@@ -14,7 +14,7 @@
 
 <script>
 import axios from "axios";
-import { API_URLS } from "../utilities/constants";
+import { API_URLS } from "@utilities/constants";
 
 export default {
   name: "Settings",

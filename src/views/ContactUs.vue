@@ -29,7 +29,7 @@
 
 <script>
 import axios from "axios";
-import { API_URLS } from "../utilities/constants";
+import { API_URLS } from "@utilities/constants";
 
 export default {
   name: "ContactUs",
@@ -67,7 +67,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../styles/_breakpoints.scss";
+@import "@styles/_breakpoints.scss";
 
 .main-container {
   padding: 24px 48px;
