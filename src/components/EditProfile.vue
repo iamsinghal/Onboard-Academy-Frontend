@@ -303,6 +303,7 @@ export default {
           this.snackbar = true;
         })
         .catch(err => {
+          this.toastMessage = "Profile updated failed!";
           console.log(err);
         });
     }

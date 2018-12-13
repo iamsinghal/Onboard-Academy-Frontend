@@ -1,6 +1,8 @@
 <template>
   <div class="view-match__container">
-      <v-card>
+      <v-card
+      color="floralWhite"
+      >
         <div class="card-detail">
           <v-btn v-if="removeBuddyBtn" @click="removeBuddy(matchedUser.buddyId)" :disabled="isRemoveBuddy" class="remove-buddy" icon small color="white"> <v-icon>close</v-icon></v-btn>
           <div @click="routeToUserProfile(matchedUser.id)" class="initials">

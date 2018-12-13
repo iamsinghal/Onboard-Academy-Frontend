@@ -30,7 +30,7 @@
           <v-card
             flat
             class="mb-5 elevation-0 input__container"
-            color="white"
+            color="floralWhite"
             height="400px"
           >
           <span class="action--back">
@@ -56,7 +56,7 @@
         <v-stepper-content step="2">
           <v-card
             class="mb-5 elevation-0 input__container"
-            color="white"
+            color="floralWhite"
             height="400px"
           >
           <span class="action--back">
@@ -82,7 +82,7 @@
         <v-stepper-content step="3">
           <v-card
             class="mb-5 elevation-0 input__container"
-            color="white"
+            color="floralWhite"
             height="400px"
           >
           <span class="action--back">
@@ -108,7 +108,7 @@
         <v-stepper-content step="4">
           <v-card
             class="elevation-0 input__container"
-            color="white"
+            color="floralWhite"
             height="400px"
           >
           <span class="action--back">
@@ -198,6 +198,10 @@
 
 .chevron--hidden {
   visibility: hidden;
+}
+
+.v-stepper__items {
+  background-color: $floral-white;
 }
 </style>
 

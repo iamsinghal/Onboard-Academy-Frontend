@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <h2 class="section__title">View Matches</h2>
+    <h2 class="section__title">Matched Results</h2>
     <div class="matched-results">
       <UserCard
       v-for="(user, index) in matchResult" :key="index"
