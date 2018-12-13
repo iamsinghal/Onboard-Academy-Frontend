@@ -19,7 +19,7 @@
               <v-btn :disabled="isRejectedOrAccepted" @click="acceptRejectInvite(matchedUser.id, 'Approved')" round color="primary">Accept</v-btn>
               <v-btn :disabled="isRejectedOrAccepted" @click="acceptRejectInvite(matchedUser.id, 'Rejected')" round color="secondary">Reject</v-btn>
             </div>
-            <v-btn v-if="messageBtn" round color="success">Message</v-btn>
+            <v-btn v-if="messageBtn" to="/messages" round color="success">Message</v-btn>
           </div>
         </div>
       </v-card>

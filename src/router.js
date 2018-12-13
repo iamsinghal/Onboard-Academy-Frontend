@@ -50,7 +50,10 @@ const router = new Router({
     {
       path: "/find-companion",
       name: "find-companion",
-      component: FindCompanion
+      component: FindCompanion,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: "/profile",
