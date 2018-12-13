@@ -49,7 +49,6 @@ export default {
         if (!res.data) {
           return;
         }
-        console.log(res.data);
         this.matchResult = res.data;
       })
       .catch(err => {
@@ -102,7 +101,6 @@ export default {
           if (!res.data) {
             return;
           }
-          console.log(res.data);
         })
         .catch(err => {
           if (err.response.data.message) {

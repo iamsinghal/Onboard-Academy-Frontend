@@ -85,7 +85,6 @@ export default {
       this.$auth
         .authenticate(provider)
         .then(res => {
-          console.log(res.data);
           this.saveToken(res.data);
         })
         .catch(function(err) {
@@ -94,8 +93,6 @@ export default {
     },
     saveToken(response) {
       let viewerObject = {};
-      console.log(response);
-      console.log(response.token);
       localStorage.setItem("token", response.token);
       if (response.profilePic) {
         viewerObject = {
@@ -114,14 +111,11 @@ export default {
         axios
           .get(API_URLS.USER_PROFILE)
           .then(res => {
-            console.log(res.data);
             if (!res.data) {
               return;
             }
 
             if (!res.data.profilePic) {
-              console.log("Profile Pic none");
-
               viewerObject = {
                 name: response.user.name,
                 email: response.user.email,

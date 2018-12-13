@@ -61,7 +61,6 @@ export default {
           facebookUrl: this.isFbUrlVisible
         })
         .then(res => {
-          console.log(res.data);
           if (!res.data) {
             return;
           }

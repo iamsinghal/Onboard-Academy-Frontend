@@ -64,7 +64,6 @@ export default {
           });
         });
         this.pendingInvitations = pendingInvitations;
-        console.log(pendingInvitations.length);
       })
       .catch(err => {
         if (err.response) {
@@ -103,7 +102,6 @@ export default {
       return name.substring(0, 1);
     },
     acceptRejectInvite(statusAndBuddyId) {
-      console.log(statusAndBuddyId);
       axios.defaults.headers = {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token")
@@ -115,7 +113,6 @@ export default {
           if (!res.data) {
             return;
           }
-          console.log(res.data);
         })
         .catch(err => {
           if (err.response) {
@@ -135,7 +132,6 @@ export default {
           if (!res.data) {
             return;
           }
-          console.log(res.data);
         })
         .catch(err => {
           if (err.response) {

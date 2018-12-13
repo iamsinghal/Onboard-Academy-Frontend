@@ -1,7 +1,6 @@
 const path = require("path");
 
 const appSrc = path.join(__dirname, "src");
-console.log(appSrc);
 
 module.exports = {
   baseUrl: process.env.VUE_APP_BASE_URL,

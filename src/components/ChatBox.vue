@@ -122,7 +122,6 @@ export default {
           if (!res.data) {
             return;
           }
-          console.log(res.data);
         })
         .catch(err => {
           if (err.response) {
@@ -172,7 +171,6 @@ export default {
           if (!res.data) {
             return;
           }
-          console.log(res.data);
           res.data.chatMessages.forEach(chat => {
             if (!chat.file) {
               this.conversations.push({
@@ -200,8 +198,6 @@ export default {
       return name.substring(0, 1);
     },
     downloadFile(filename) {
-      console.log(filename);
-
       axios.defaults.headers = {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token")

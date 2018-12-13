@@ -51,9 +51,7 @@
     <v-card class="section-card">
       <h2 class="section-title">Contact</h2>
       <v-autocomplete
-        :loading="loading"
         :items="locationList"
-        :search-input.sync="search"
         v-model="profile.origin.id"
         cache-items
         flat
@@ -214,7 +212,6 @@ export default {
     axios
       .get(API_URLS.USER_PROFILE)
       .then(res => {
-        console.log(res.data);
         if (!res.data) {
           return;
         }

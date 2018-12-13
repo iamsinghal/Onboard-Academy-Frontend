@@ -65,7 +65,6 @@ export default {
     axios
       .get(`${API_URLS.PUBLIC_PROFILE}/${userId}`)
       .then(res => {
-        console.log(res.data);
         if (!res.data) {
           return;
         }

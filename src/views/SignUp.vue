@@ -73,7 +73,6 @@ export default {
         axios
           .post(API_URLS.REGISTER, this.user)
           .then(res => {
-            console.log(res.data);
             localStorage.setItem("token", res.data.token);
             this.$store.commit("setViewer", {
               email: this.user.email,
@@ -83,7 +82,6 @@ export default {
           })
           .catch(e => {
             console.log(e);
-            console.log(this.user);
           });
       });
     }

@@ -76,17 +76,14 @@ export default {
       this.isInvited = true;
     },
     acceptRejectInvite(buddyId, status) {
-      console.log(status);
       this.$emit("acceptRejectInvite", { buddyId, status });
       this.isRejectedOrAccepted = true;
     },
     removeBuddy(buddyId) {
-      console.log(buddyId);
       this.$emit("removeBuddy", { buddyId });
       this.isRemoveBuddy = true;
     },
     routeToUserProfile(userId) {
-      console.log(userId);
       this.$router.push(`/profile/${userId}`);
     }
   }
